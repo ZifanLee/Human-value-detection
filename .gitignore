@@ -1,0 +1,8 @@
+# Ignore files
+/model/best_model.pt
+
+# Ignore log files
+*.log
+
+# Ignore the "secret" directory
+/data/appendix/

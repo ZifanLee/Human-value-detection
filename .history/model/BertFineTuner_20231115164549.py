@@ -25,13 +25,20 @@ class BertFineTuner(nn.Module):
         self.hidden_layers = nn.ModuleList()
         output_dim = self.bert.config.hidden_size
         
-        self.hidden_layers.append(nn.Linear(output_dim, 64))
+        self.hidden_layers.append(nn.Linear(output_dim, 256))
         self.hidden_layers.append(nn.LeakyReLU(negative_slope=0.2))
-        self.hidden_layers.append(nn.Dropout(0.3))
+        self.hidden_layers.append(nn.Dropout(0.2))
+        
+        self.hidden_layers.append(nn.Linear(256, 128))
+        self.hidden_layers.append(nn.LeakyReLU(negative_slope=0.2))
+        self.hidden_layers.append(nn.Dropout(0.2))
+        
+        self.hidden_layers.append(nn.Linear(128, 64))
+        self.hidden_layers.append(nn.LeakyReLU(negative_slope=0.2))
+        self.hidden_layers.append(nn.Dropout(0.2))
         
         self.hidden_layers.append(nn.Linear(64, 32))
         self.hidden_layers.append(nn.LeakyReLU(negative_slope=0.2))
-        self.hidden_layers.append(nn.Dropout(0.3))
         
         self.classifier = nn.Linear(32, 20)
         self.n_training_steps = n_training_steps
