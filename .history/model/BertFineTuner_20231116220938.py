@@ -50,7 +50,7 @@ class BertFineTuner(nn.Module):
             output_cls = layer(output_cls)
 
         output = self.classifier(output_cls)
-        predictions = torch.sigmoid(output)  
+        predictions = torch.sigmoid(output)  # Compute predictions
 
         return predictions
 
@@ -249,7 +249,7 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate, n_warmup_s
             labels = labels.to(device)
 
             optimizer.zero_grad()
-            predictions = model(input_ids, attention_mask)
+            predictions = model(input_ids, attention_mask)  
             loss = calculate_loss(predictions, labels, class_weights)  
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -301,6 +301,7 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate, n_warmup_s
     print("Training complete!")
 
 def calculate_loss(predictions, labels, class_weights=None):
-    criterion = torch.nn.BCELoss(weight=class_weights)
+    criterion = torch.nn.BCEWithLogitsLoss(weight=class_weights)
     loss = criterion(predictions, labels)
+    print(predictions, labels, loss)
     return loss

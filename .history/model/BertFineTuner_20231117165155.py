@@ -301,6 +301,6 @@ def train(model, train_loader, val_loader, num_epochs, learning_rate, n_warmup_s
     print("Training complete!")
 
 def calculate_loss(predictions, labels, class_weights=None):
-    criterion = torch.nn.BCELoss(weight=class_weights)
+    criterion = torch.nn.BCEWithLogitsLoss(weight=class_weights)
     loss = criterion(predictions, labels)
     return loss
